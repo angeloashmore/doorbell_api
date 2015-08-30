@@ -1,4 +1,4 @@
-# DoorbellApi
+# Doorbell API
 
 To start your Phoenix app:
 
