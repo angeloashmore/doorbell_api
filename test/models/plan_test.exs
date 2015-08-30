@@ -3,7 +3,7 @@ defmodule DoorbellApi.PlanTest do
 
   alias DoorbellApi.Plan
 
-  @valid_attrs %{name: "some content", type: "some content"}
+  @valid_attrs %{name: "Default", type: "user"}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

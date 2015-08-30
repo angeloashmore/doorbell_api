@@ -12,8 +12,8 @@ defmodule DoorbellApi.BillingView do
   def render("billing.json", %{billing: billing}) do
     %{id: billing.id,
       plan_id: billing.plan_id,
-      relation_type: billing.relation_type,
-      relation_id: billing.relation_id,
+      user_id: billing.user_id,
+      team_id: billing.team_id,
       stripe_customer_id: billing.stripe_customer_id,
       email: billing.email,
       brand: billing.brand,

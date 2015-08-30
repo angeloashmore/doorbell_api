@@ -1,11 +1,6 @@
-# Script for populating the database. You can run it as:
-#
-#     mix run priv/repo/seeds.exs
-#
-# Inside the script, you can read and write to any of your
-# repositories directly:
-#
-#     DoorbellApi.Repo.insert!(%SomeModel{})
-#
-# We recommend using the bang functions (`insert!`, `update!`
-# and so on) as they will fail if something goes wrong.
+alias DoorbellApi.Repo
+alias DoorbellApi.Plan
+
+# Insert default plans.
+%Plan{type: "user", name: "Default"} |> Repo.insert!
+%Plan{type: "team", name: "Default"} |> Repo.insert!

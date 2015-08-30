@@ -2,7 +2,10 @@ defmodule DoorbellApi.UserControllerTest do
   use DoorbellApi.ConnCase
 
   alias DoorbellApi.User
-  @valid_attrs %{email: "some content", name: "some content", remote_id: "some content"}
+  @valid_attrs %{
+    remote_id: "auth0|1234",
+    email: "name@example.com",
+    name: "John Doe"}
   @invalid_attrs %{}
 
   setup do
@@ -18,10 +21,10 @@ defmodule DoorbellApi.UserControllerTest do
   test "shows chosen resource", %{conn: conn} do
     user = Repo.insert! %User{}
     conn = get conn, user_path(conn, :show, user)
-    assert json_response(conn, 200)["data"] == %{id: user.id,
-      remote_id: user.remote_id,
-      email: user.email,
-      name: user.name}
+    assert json_response(conn, 200)["data"] == %{"id" => user.id,
+      "remote_id" => user.remote_id,
+      "email" => user.email,
+      "name" => user.name}
   end
 
   test "does not show resource and instead throw error when id is nonexistent", %{conn: conn} do

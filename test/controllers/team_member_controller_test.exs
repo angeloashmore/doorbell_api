@@ -2,7 +2,13 @@ defmodule DoorbellApi.TeamMemberControllerTest do
   use DoorbellApi.ConnCase
 
   alias DoorbellApi.TeamMember
-  @valid_attrs %{email: "some content", private: true, roles_mask: 42, team_id: 42, title: "some content", user_id: 42}
+  @valid_attrs %{
+    email: "name@example.com",
+    private: true,
+    roles_mask: 0,
+    team_id: 1,
+    title: "Owner",
+    user_id: 1}
   @invalid_attrs %{}
 
   setup do
@@ -18,13 +24,13 @@ defmodule DoorbellApi.TeamMemberControllerTest do
   test "shows chosen resource", %{conn: conn} do
     team_member = Repo.insert! %TeamMember{}
     conn = get conn, team_member_path(conn, :show, team_member)
-    assert json_response(conn, 200)["data"] == %{id: team_member.id,
-      user_id: team_member.user_id,
-      team_id: team_member.team_id,
-      title: team_member.title,
-      email: team_member.email,
-      private: team_member.private,
-      roles_mask: team_member.roles_mask}
+    assert json_response(conn, 200)["data"] == %{"id" => team_member.id,
+      "user_id" => team_member.user_id,
+      "team_id" => team_member.team_id,
+      "title" => team_member.title,
+      "email" => team_member.email,
+      "private" => team_member.private,
+      "roles_mask" => team_member.roles_mask}
   end
 
   test "does not show resource and instead throw error when id is nonexistent", %{conn: conn} do

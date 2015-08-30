@@ -2,7 +2,15 @@ defmodule DoorbellApi.BillingControllerTest do
   use DoorbellApi.ConnCase
 
   alias DoorbellApi.Billing
-  @valid_attrs %{brand: "some content", email: "some content", exp_month: "some content", exp_year: "some content", last4: "some content", plan_id: 42, relation_id: 42, relation_type: "some content", stripe_customer_id: "some content"}
+  @valid_attrs %{
+    plan_id: 1,
+    user_id: 1,
+    email: "name@example.com",
+    stripe_customer_id: "cus_mockID",
+    brand: "visa",
+    last4: "4242",
+    exp_month: "03",
+    exp_year: "2016"}
   @invalid_attrs %{}
 
   setup do
@@ -18,16 +26,16 @@ defmodule DoorbellApi.BillingControllerTest do
   test "shows chosen resource", %{conn: conn} do
     billing = Repo.insert! %Billing{}
     conn = get conn, billing_path(conn, :show, billing)
-    assert json_response(conn, 200)["data"] == %{id: billing.id,
-      plan_id: billing.plan_id,
-      relation_type: billing.relation_type,
-      relation_id: billing.relation_id,
-      stripe_customer_id: billing.stripe_customer_id,
-      email: billing.email,
-      brand: billing.brand,
-      last4: billing.last4,
-      exp_month: billing.exp_month,
-      exp_year: billing.exp_year}
+    assert json_response(conn, 200)["data"] == %{"id" => billing.id,
+      "plan_id" => billing.plan_id,
+      "user_id" => billing.user_id,
+      "team_id" => billing.team_id,
+      "stripe_customer_id" => billing.stripe_customer_id,
+      "email" => billing.email,
+      "brand" => billing.brand,
+      "last4" => billing.last4,
+      "exp_month" => billing.exp_month,
+      "exp_year" => billing.exp_year}
   end
 
   test "does not show resource and instead throw error when id is nonexistent", %{conn: conn} do

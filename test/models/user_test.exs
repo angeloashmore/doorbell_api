@@ -3,7 +3,10 @@ defmodule DoorbellApi.UserTest do
 
   alias DoorbellApi.User
 
-  @valid_attrs %{email: "some content", name: "some content", remote_id: "some content"}
+  @valid_attrs %{
+    remote_id: "auth0|1234",
+    email: "name@example.com",
+    name: "John Doe"}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

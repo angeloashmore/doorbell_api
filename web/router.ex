@@ -1,26 +1,17 @@
 defmodule DoorbellApi.Router do
   use DoorbellApi.Web, :router
 
-  pipeline :browser do
-    plug :accepts, ["html"]
-    plug :fetch_session
-    plug :fetch_flash
-    plug :protect_from_forgery
-    plug :put_secure_browser_headers
-  end
-
   pipeline :api do
     plug :accepts, ["json"]
   end
 
   scope "/", DoorbellApi do
-    pipe_through :browser # Use the default browser stack
+    pipe_through :api
 
-    get "/", PageController, :index
+    resources "/billings", BillingController
+    resources "/plans", PlanController
+    resources "/teams", TeamController
+    resources "/team_members", TeamMemberController
+    resources "/users", UserController
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", DoorbellApi do
-  #   pipe_through :api
-  # end
 end

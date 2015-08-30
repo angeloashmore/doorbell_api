@@ -15,7 +15,7 @@ config :phoenix, :stacktrace_depth, 20
 # Configure your database
 config :doorbell_api, DoorbellApi.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
+  username: "angeloashmore",
+  password: "",
   database: "doorbell_api_test",
   pool: Ecto.Adapters.SQL.Sandbox

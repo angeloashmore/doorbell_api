@@ -50,11 +50,16 @@ defmodule DoorbellApi.Billing do
   def type(%Billing{team_id: team_id}) when not is_nil(team_id), do: :team
   def type(%Billing{}), do: :unknown
 
+  @spec set_default_plan(Ecto.Changeset) :: Ecto.Changeset
   defp set_default_plan(changeset) do
-    plan = Billing.type(changeset.model)
-    |> Plan.default_for!
+    case Billing.type(changeset.model) do
+      type when type in [:user, :team] ->
+        %{id: id} = Plan.default_for_type!(type)
+        change(changeset, plan_id: id)
 
-    change(changeset, plan_id: plan.id)
+      _ ->
+        changeset
+    end
   end
 
   @spec create_stripe_customer(Ecto.Changeset) :: Ecto.Changeset

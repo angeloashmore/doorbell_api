@@ -15,9 +15,6 @@ defmodule DoorbellApi.UserController do
 
     case Repo.insert(changeset) do
       {:ok, user} ->
-        user
-        |> User.create_billing()
-
         conn
         |> put_status(:created)
         |> render("show.json", user: user)

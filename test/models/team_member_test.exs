@@ -3,7 +3,13 @@ defmodule DoorbellApi.TeamMemberTest do
 
   alias DoorbellApi.TeamMember
 
-  @valid_attrs %{email: "some content", private: true, roles_mask: 42, team_id: 42, title: "some content", user_id: 42}
+  @valid_attrs %{
+    email: "name@example.com",
+    private: true,
+    roles_mask: 0,
+    team_id: 1,
+    title: "Owner",
+    user_id: 1}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

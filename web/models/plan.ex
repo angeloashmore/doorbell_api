@@ -31,7 +31,7 @@ defmodule DoorbellApi.Plan do
   @doc """
   Returns the default plan model for the given `type`.
   """
-  @spec default_for!(atom) :: Plan
-  def default_for!(:user), do: Repo.get_by!(Plan, type: "user", name: "Default")
-  def default_for!(:team), do: Repo.get_by!(Plan, type: "team", name: "Default")
+  @spec default_for_type!(atom) :: Plan
+  def default_for_type!(:user), do: Repo.get_by!(Plan, type: "user", name: "Default")
+  def default_for_type!(:team), do: Repo.get_by!(Plan, type: "team", name: "Default")
 end

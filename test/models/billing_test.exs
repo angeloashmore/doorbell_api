@@ -3,7 +3,16 @@ defmodule DoorbellApi.BillingTest do
 
   alias DoorbellApi.Billing
 
-  @valid_attrs %{brand: "some content", email: "some content", exp_month: "some content", exp_year: "some content", last4: "some content", plan_id: 42, relation_id: 42, relation_type: "some content", stripe_customer_id: "some content"}
+  @valid_attrs %{
+    plan_id: 1,
+    user_id: 1,
+    team_id: nil,
+    email: "name@example.com",
+    stripe_customer_id: "cus_mockID",
+    brand: "visa",
+    last4: "4242",
+    exp_month: "03",
+    exp_year: "2016"}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do
