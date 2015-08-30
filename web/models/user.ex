@@ -12,7 +12,7 @@ defmodule DoorbellApi.User do
     field :email, :string
     field :name, :string
 
-    has_one :billing, Billing
+    has_one :billing, Billing, on_delete: :delete_all
 
     timestamps
   end

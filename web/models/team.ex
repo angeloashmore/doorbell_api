@@ -12,8 +12,8 @@ defmodule DoorbellApi.Team do
     field :name, :string
     field :email, :string
 
-    has_one :billing, Billing
-    has_many :team_members, TeamMember
+    has_one :billing, Billing, on_delete: :delete_all
+    has_many :team_members, TeamMember, on_delete: :delete_all
 
     timestamps
   end
