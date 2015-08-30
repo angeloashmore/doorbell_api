@@ -24,4 +24,11 @@ defmodule DoorbellApi.BillingTest do
     changeset = Billing.changeset(%Billing{}, @invalid_attrs)
     refute changeset.valid?
   end
+
+  test "type" do
+    billing = %Billing{}
+    assert Billing.type(%{billing | user_id: 1}) == :user
+    assert Billing.type(%{billing | team_id: 1}) == :team
+    assert Billing.type(billing) == :unknown
+  end
 end
