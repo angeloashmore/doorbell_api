@@ -61,7 +61,19 @@ defmodule DoorbellApi.Web do
       alias DoorbellApi.Repo
       import Ecto.Model
       import Ecto.Query, only: [from: 1, from: 2]
+    end
+  end
 
+  def abilities do
+    quote do
+      alias DoorbellApi.Repo
+      alias DoorbellApi.Billing
+      alias DoorbellApi.Plan
+      alias DoorbellApi.Team
+      alias DoorbellApi.TeamMember
+      alias DoorbellApi.User
+
+      import Ecto.Query, only: [from: 1, from: 2]
     end
   end
 

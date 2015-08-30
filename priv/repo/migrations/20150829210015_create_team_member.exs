@@ -8,7 +8,7 @@ defmodule DoorbellApi.Repo.Migrations.CreateTeamMember do
       add :title, :string
       add :email, :string
       add :private, :boolean, default: false
-      add :roles_mask, :integer
+      add :roles, {:array, :string}
 
       timestamps
     end

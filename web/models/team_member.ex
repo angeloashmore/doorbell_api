@@ -5,7 +5,7 @@ defmodule DoorbellApi.TeamMember do
     field :title, :string
     field :email, :string
     field :private, :boolean, default: false
-    field :roles_mask, :integer
+    field :roles, {:array, :string}
 
     belongs_to :user, DoorbellApi.User
     belongs_to :team, DoorbellApi.Team
@@ -13,7 +13,7 @@ defmodule DoorbellApi.TeamMember do
     timestamps
   end
 
-  @required_fields ~w(user_id team_id title email private roles_mask)
+  @required_fields ~w(user_id team_id title email private roles)
   @optional_fields ~w()
 
   @doc """
@@ -26,5 +26,6 @@ defmodule DoorbellApi.TeamMember do
     model
     |> cast(params, @required_fields, @optional_fields)
     |> validate_format(:email, ~r/\A[^@]+@[^@]+\z/)
+    |> validate_subset(:roles, ["owner", "admin", "billing"])
   end
 end

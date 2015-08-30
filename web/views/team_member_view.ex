@@ -16,6 +16,6 @@ defmodule DoorbellApi.TeamMemberView do
       title: team_member.title,
       email: team_member.email,
       private: team_member.private,
-      roles_mask: team_member.roles_mask}
+      roles: team_member.roles}
   end
 end

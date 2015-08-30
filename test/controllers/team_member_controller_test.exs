@@ -5,7 +5,7 @@ defmodule DoorbellApi.TeamMemberControllerTest do
   @valid_attrs %{
     email: "name@example.com",
     private: true,
-    roles_mask: 0,
+    roles: ["owner"],
     team_id: 1,
     title: "Owner",
     user_id: 1}
@@ -30,7 +30,7 @@ defmodule DoorbellApi.TeamMemberControllerTest do
       "title" => team_member.title,
       "email" => team_member.email,
       "private" => team_member.private,
-      "roles_mask" => team_member.roles_mask}
+      "roles" => team_member.roles}
   end
 
   test "does not show resource and instead throw error when id is nonexistent", %{conn: conn} do

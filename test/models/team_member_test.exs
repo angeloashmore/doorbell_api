@@ -6,7 +6,7 @@ defmodule DoorbellApi.TeamMemberTest do
   @valid_attrs %{
     email: "name@example.com",
     private: true,
-    roles_mask: 0,
+    roles: ["owner"],
     team_id: 1,
     title: "Owner",
     user_id: 1}
