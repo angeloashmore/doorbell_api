@@ -44,17 +44,6 @@ defmodule DoorbellApi.BillingControllerTest do
     end
   end
 
-  test "creates and renders resource when data is valid", %{conn: conn} do
-    conn = post conn, billing_path(conn, :create), billing: @valid_attrs
-    assert json_response(conn, 201)["data"]["id"]
-    assert Repo.get_by(Billing, @valid_attrs)
-  end
-
-  test "does not create resource and renders errors when data is invalid", %{conn: conn} do
-    conn = post conn, billing_path(conn, :create), billing: @invalid_attrs
-    assert json_response(conn, 422)["errors"] != %{}
-  end
-
   test "updates and renders chosen resource when data is valid", %{conn: conn} do
     billing = Repo.insert! %Billing{}
     conn = put conn, billing_path(conn, :update, billing), billing: @valid_attrs
@@ -66,12 +55,5 @@ defmodule DoorbellApi.BillingControllerTest do
     billing = Repo.insert! %Billing{}
     conn = put conn, billing_path(conn, :update, billing), billing: @invalid_attrs
     assert json_response(conn, 422)["errors"] != %{}
-  end
-
-  test "deletes chosen resource", %{conn: conn} do
-    billing = Repo.insert! %Billing{}
-    conn = delete conn, billing_path(conn, :delete, billing)
-    assert response(conn, 204)
-    refute Repo.get(Billing, billing.id)
   end
 end

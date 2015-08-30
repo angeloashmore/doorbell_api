@@ -56,11 +56,4 @@ defmodule DoorbellApi.UserControllerTest do
     conn = put conn, user_path(conn, :update, user), user: @invalid_attrs
     assert json_response(conn, 422)["errors"] != %{}
   end
-
-  test "deletes chosen resource", %{conn: conn} do
-    user = Repo.insert! %User{}
-    conn = delete conn, user_path(conn, :delete, user)
-    assert response(conn, 204)
-    refute Repo.get(User, user.id)
-  end
 end

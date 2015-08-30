@@ -3,8 +3,6 @@ defmodule DoorbellApi.TeamMemberController do
 
   alias DoorbellApi.TeamMember
 
-  plug :scrub_params, "team_member" when action in [:create, :update]
-
   def index(conn, _params) do
     team_members = Repo.all(TeamMember)
     render(conn, "index.json", team_members: team_members)

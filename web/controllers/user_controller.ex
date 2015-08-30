@@ -3,8 +3,6 @@ defmodule DoorbellApi.UserController do
 
   alias DoorbellApi.User
 
-  plug :scrub_params, "user" when action in [:create, :update]
-
   def index(conn, _params) do
     users = Repo.all(User)
     render(conn, "index.json", users: users)
@@ -42,15 +40,5 @@ defmodule DoorbellApi.UserController do
         |> put_status(:unprocessable_entity)
         |> render(DoorbellApi.ChangesetView, "error.json", changeset: changeset)
     end
-  end
-
-  def delete(conn, %{"id" => id}) do
-    user = Repo.get!(User, id)
-
-    # Here we use delete! (with a bang) because we expect
-    # it to always work (and if it does not, it will raise).
-    user = Repo.delete!(user)
-
-    send_resp(conn, :no_content, "")
   end
 end
