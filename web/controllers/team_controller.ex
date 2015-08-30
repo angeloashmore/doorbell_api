@@ -3,6 +3,8 @@ defmodule DoorbellApi.TeamController do
 
   alias DoorbellApi.Team
 
+  plug Joken.Plug, on_verifying: &JokenConfig.on_verifying/0, on_error: &JokenConfig.on_error/2
+
   def index(conn, _params) do
     teams = Repo.all(Team)
     render(conn, "index.json", teams: teams)

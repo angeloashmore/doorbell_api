@@ -12,13 +12,21 @@ defmodule DoorbellApi.TeamMemberControllerTest do
   @invalid_attrs %{}
 
   setup do
-    conn = conn() |> put_req_header("accept", "application/json")
+    conn = conn()
+    |> put_req_header("accept", "application/json")
+    |> put_req_header("authorization", "Bearer " <> @valid_jwt)
     {:ok, conn: conn}
   end
 
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, team_member_path(conn, :index)
     assert json_response(conn, 200)["data"] == []
+  end
+
+  test "does not list all entries and instead reponds with unauthorized when authorization header is nonexistent", %{conn: conn} do
+    conn = delete_req_header(conn, "authorization")
+    conn = get conn, team_member_path(conn, :index)
+    assert json_response(conn, 401)["error"] == "Unauthorized"
   end
 
   test "shows chosen resource", %{conn: conn} do
@@ -39,6 +47,13 @@ defmodule DoorbellApi.TeamMemberControllerTest do
     end
   end
 
+  test "does not show resource and instead reponds with unauthorized when authorization header is nonexistent", %{conn: conn} do
+    team_member = Repo.insert! %TeamMember{}
+    conn = delete_req_header(conn, "authorization")
+    conn = get conn, team_member_path(conn, :show, team_member)
+    assert json_response(conn, 401)["error"] == "Unauthorized"
+  end
+
   test "creates and renders resource when data is valid", %{conn: conn} do
     conn = post conn, team_member_path(conn, :create), team_member: @valid_attrs
     assert json_response(conn, 201)["data"]["id"]
@@ -48,6 +63,12 @@ defmodule DoorbellApi.TeamMemberControllerTest do
   test "does not create resource and renders errors when data is invalid", %{conn: conn} do
     conn = post conn, team_member_path(conn, :create), team_member: @invalid_attrs
     assert json_response(conn, 422)["errors"] != %{}
+  end
+
+  test "does not create resource and instead reponds with unauthorized when authorization header is nonexistent", %{conn: conn} do
+    conn = delete_req_header(conn, "authorization")
+    conn = post conn, team_member_path(conn, :create), team_member: @valid_attrs
+    assert json_response(conn, 401)["error"] == "Unauthorized"
   end
 
   test "updates and renders chosen resource when data is valid", %{conn: conn} do
@@ -63,10 +84,24 @@ defmodule DoorbellApi.TeamMemberControllerTest do
     assert json_response(conn, 422)["errors"] != %{}
   end
 
+  test "does not update chosen resource and instead reponds with unauthorized when authorization header is nonexistent", %{conn: conn} do
+    team_member = Repo.insert! %TeamMember{}
+    conn = delete_req_header(conn, "authorization")
+    conn = put conn, team_member_path(conn, :update, team_member), team_member: @valid_attrs
+    assert json_response(conn, 401)["error"] == "Unauthorized"
+  end
+
   test "deletes chosen resource", %{conn: conn} do
     team_member = Repo.insert! %TeamMember{}
     conn = delete conn, team_member_path(conn, :delete, team_member)
     assert response(conn, 204)
     refute Repo.get(TeamMember, team_member.id)
+  end
+
+  test "does not delete chosen resource and instead reponds with unauthorized when authorization header is nonexistent", %{conn: conn} do
+    team_member = Repo.insert! %TeamMember{}
+    conn = delete_req_header(conn, "authorization")
+    conn = delete conn, team_member_path(conn, :delete, team_member)
+    assert json_response(conn, 401)["error"] == "Unauthorized"
   end
 end

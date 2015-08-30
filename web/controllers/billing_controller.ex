@@ -3,6 +3,8 @@ defmodule DoorbellApi.BillingController do
 
   alias DoorbellApi.Billing
 
+  plug Joken.Plug, on_verifying: &JokenConfig.on_verifying/0, on_error: &JokenConfig.on_error/2
+
   def index(conn, _params) do
     billings = Repo.all(Billing)
     render(conn, "index.json", billings: billings)

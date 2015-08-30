@@ -23,11 +23,19 @@ defmodule DoorbellApi.ConnCase do
       alias DoorbellApi.Repo
       import Ecto.Model
       import Ecto.Query, only: [from: 2]
+      import Joken
 
       import DoorbellApi.Router.Helpers
 
       # The default endpoint for testing
       @endpoint DoorbellApi.Endpoint
+
+      # The default valid JWT for testing
+      @valid_jwt token
+      |> with_aud(Application.get_env(:auth0, :client_id))
+      |> with_signer(hs256(Application.get_env(:auth0, :client_secret)))
+      |> sign
+      |> get_compact
     end
   end
 

@@ -14,13 +14,21 @@ defmodule DoorbellApi.BillingControllerTest do
   @invalid_attrs %{}
 
   setup do
-    conn = conn() |> put_req_header("accept", "application/json")
+    conn = conn()
+    |> put_req_header("accept", "application/json")
+    |> put_req_header("authorization", "Bearer " <> @valid_jwt)
     {:ok, conn: conn}
   end
 
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, billing_path(conn, :index)
     assert json_response(conn, 200)["data"] == []
+  end
+
+  test "does not list all entries and instead reponds with unauthorized when authorization header is nonexistent", %{conn: conn} do
+    conn = delete_req_header(conn, "authorization")
+    conn = get conn, billing_path(conn, :index)
+    assert json_response(conn, 401)["error"] == "Unauthorized"
   end
 
   test "shows chosen resource", %{conn: conn} do
@@ -44,6 +52,13 @@ defmodule DoorbellApi.BillingControllerTest do
     end
   end
 
+  test "does not show resource and instead reponds with unauthorized when authorization header is nonexistent", %{conn: conn} do
+    billing = Repo.insert! %Billing{}
+    conn = delete_req_header(conn, "authorization")
+    conn = get conn, billing_path(conn, :show, billing)
+    assert json_response(conn, 401)["error"] == "Unauthorized"
+  end
+
   test "updates and renders chosen resource when data is valid", %{conn: conn} do
     billing = Repo.insert! %Billing{}
     conn = put conn, billing_path(conn, :update, billing), billing: @valid_attrs
@@ -55,5 +70,12 @@ defmodule DoorbellApi.BillingControllerTest do
     billing = Repo.insert! %Billing{}
     conn = put conn, billing_path(conn, :update, billing), billing: @invalid_attrs
     assert json_response(conn, 422)["errors"] != %{}
+  end
+
+  test "does not update chosen resource and instead reponds with unauthorized when authorization header is nonexistent", %{conn: conn} do
+    billing = Repo.insert! %Billing{}
+    conn = delete_req_header(conn, "authorization")
+    conn = put conn, billing_path(conn, :update, billing), billing: @invalid_attrs
+    assert json_response(conn, 401)["error"] == "Unauthorized"
   end
 end
