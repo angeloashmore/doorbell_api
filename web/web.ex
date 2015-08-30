@@ -38,12 +38,6 @@ defmodule DoorbellApi.Web do
     quote do
       use Phoenix.View, root: "web/templates"
 
-      # Import convenience functions from controllers
-      import Phoenix.Controller, only: [get_csrf_token: 0, get_flash: 2, view_module: 1]
-
-      # Use all HTML functionality (forms, tags, etc)
-      use Phoenix.HTML
-
       import DoorbellApi.Router.Helpers
     end
   end
@@ -60,19 +54,6 @@ defmodule DoorbellApi.Web do
 
       alias DoorbellApi.Repo
       import Ecto.Model
-      import Ecto.Query, only: [from: 1, from: 2]
-    end
-  end
-
-  def abilities do
-    quote do
-      alias DoorbellApi.Repo
-      alias DoorbellApi.Billing
-      alias DoorbellApi.Plan
-      alias DoorbellApi.Team
-      alias DoorbellApi.TeamMember
-      alias DoorbellApi.User
-
       import Ecto.Query, only: [from: 1, from: 2]
     end
   end

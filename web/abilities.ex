@@ -1,5 +1,12 @@
 defimpl Canada.Can, for: DoorbellApi.User do
-  use DoorbellApi.Web, :abilities
+  import Ecto.Query, only: [from: 1, from: 2]
+
+  alias DoorbellApi.Repo
+  alias DoorbellApi.Billing
+  alias DoorbellApi.Plan
+  alias DoorbellApi.Team
+  alias DoorbellApi.TeamMember
+  alias DoorbellApi.User
 
   # Billing (User)
   def can?(%User{id: user_id}, action, %Billing{user_id: user_id})
