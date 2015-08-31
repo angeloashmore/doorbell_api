@@ -75,7 +75,7 @@ defmodule DoorbellApi.BillingControllerTest do
   test "does not update chosen resource and instead reponds with unauthorized when authorization header is nonexistent", %{conn: conn} do
     billing = Repo.insert! %Billing{}
     conn = delete_req_header(conn, "authorization")
-    conn = put conn, billing_path(conn, :update, billing), billing: @invalid_attrs
+    conn = put conn, billing_path(conn, :update, billing), billing: @valid_attrs
     assert json_response(conn, 401)["error"] == "Unauthorized"
   end
 end

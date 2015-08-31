@@ -27,7 +27,6 @@ defmodule DoorbellApi.Web do
       use Phoenix.Controller
 
       alias DoorbellApi.Repo
-      alias DoorbellApi.JokenConfig
       import Ecto.Model
       import Ecto.Query, only: [from: 1, from: 2]
 
@@ -46,6 +45,8 @@ defmodule DoorbellApi.Web do
   def router do
     quote do
       use Phoenix.Router
+
+      alias DoorbellApi.JokenConfig
     end
   end
 
