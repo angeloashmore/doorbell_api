@@ -6,8 +6,8 @@ defmodule DoorbellApi.Plugs.CurrentUser do
 
   def init(default \\ nil), do: default
 
-  def call(%Plug.Conn{assigns: %{joken_claims: %{user_id: user_id}}} = conn, _default) do
-    user = Repo.get(User, user_id)
+  def call(%Plug.Conn{assigns: %{joken_claims: %{sub: remote_user_id}}} = conn, _default) do
+    user = Repo.get_by(User, remote_id: remote_user_id)
     assign(conn, :current_user, user)
   end
   def call(conn, default), do: assign(conn, :current_user, default)

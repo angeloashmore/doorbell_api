@@ -32,7 +32,7 @@ defmodule DoorbellApi.ConnCase do
 
       # The default valid JWT for testing
       @valid_jwt token
-      |> with_claim(:user_id, 1)
+      |> with_sub("remote_1")
       |> with_aud(Application.get_env(:auth0, :client_id))
       |> with_signer(hs256(Application.get_env(:auth0, :client_secret)))
       |> sign
