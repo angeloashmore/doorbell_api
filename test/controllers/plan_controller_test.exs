@@ -17,7 +17,7 @@ defmodule DoorbellApi.PlanControllerTest do
     assert length(json_response(conn, 200)["data"]) == 2
   end
 
-  test "does not list all entries and instead reponds with unauthorized when authorization header is nonexistent", %{conn: conn} do
+  test "does not list all entries and instead responds with unauthorized when authorization header is nonexistent", %{conn: conn} do
     conn = delete_req_header(conn, "authorization")
     conn = get conn, plan_path(conn, :index)
     assert json_response(conn, 401)["error"] == "Unauthorized"
@@ -31,13 +31,12 @@ defmodule DoorbellApi.PlanControllerTest do
       "type" => plan.type}
   end
 
-  test "does not show resource and instead throw error when id is nonexistent", %{conn: conn} do
-    assert_raise Ecto.NoResultsError, fn ->
-      get conn, plan_path(conn, :show, -1)
-    end
+  test "does not show resource and instead responds with unauthorized when id is nonexistent", %{conn: conn} do
+    conn = get conn, plan_path(conn, :show, -1)
+    assert json_response(conn, 401)["error"] == "Unauthorized"
   end
 
-  test "does not show resource and instead reponds with unauthorized when authorization header is nonexistent", %{conn: conn} do
+  test "does not show resource and instead responds with unauthorized when authorization header is nonexistent", %{conn: conn} do
     plan = Repo.insert! %Plan{}
     conn = delete_req_header(conn, "authorization")
     conn = get conn, plan_path(conn, :show, plan)

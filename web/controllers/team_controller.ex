@@ -3,7 +3,8 @@ defmodule DoorbellApi.TeamController do
 
   alias DoorbellApi.Team
 
-  plug Joken.Plug, on_verifying: &JokenConfig.on_verifying/0, on_error: &JokenConfig.on_error/2
+  plug :load_and_authorize_resource, model: Team
+  plug DoorbellApi.Plugs.Unauthorized
 
   def index(conn, _params) do
     teams = Repo.all(Team)
@@ -26,12 +27,12 @@ defmodule DoorbellApi.TeamController do
   end
 
   def show(conn, %{"id" => id}) do
-    team = Repo.get!(Team, id)
+    team = conn.assigns.team
     render conn, "show.json", team: team
   end
 
   def update(conn, %{"id" => id, "team" => team_params}) do
-    team = Repo.get!(Team, id)
+    team = conn.assigns.team
     changeset = Team.changeset(team, team_params)
 
     case Repo.update(changeset) do
@@ -45,7 +46,7 @@ defmodule DoorbellApi.TeamController do
   end
 
   def delete(conn, %{"id" => id}) do
-    team = Repo.get!(Team, id)
+    team = conn.assigns.team
 
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).

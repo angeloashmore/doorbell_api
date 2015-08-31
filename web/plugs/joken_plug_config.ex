@@ -1,4 +1,4 @@
-defmodule DoorbellApi.JokenConfig do
+defmodule DoorbellApi.JokenPlugConfig do
   import Joken
 
   def on_verifying do

@@ -3,7 +3,8 @@ defmodule DoorbellApi.PlanController do
 
   alias DoorbellApi.Plan
 
-  plug Joken.Plug, on_verifying: &JokenConfig.on_verifying/0, on_error: &JokenConfig.on_error/2
+  plug :load_and_authorize_resource, model: Plan
+  plug DoorbellApi.Plugs.Unauthorized
 
   def index(conn, _params) do
     plans = Repo.all(Plan)
@@ -11,7 +12,7 @@ defmodule DoorbellApi.PlanController do
   end
 
   def show(conn, %{"id" => id}) do
-    plan = Repo.get!(Plan, id)
+    plan = conn.assigns.plan
     render conn, "show.json", plan: plan
   end
 end
