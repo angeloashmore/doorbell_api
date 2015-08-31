@@ -6,10 +6,6 @@ defmodule DoorbellApi.BillingController do
   plug :load_and_authorize_resource, model: Billing
   plug DoorbellApi.Plugs.Unauthorized
 
-  def index(%{assigns: %{billings: billings}} = conn, _params) do
-    render(conn, "index.json", billings: billings)
-  end
-
   def show(%{assigns: %{billing: billing}} = conn, %{"id" => id}) do
     render conn, "show.json", billing: billing
   end

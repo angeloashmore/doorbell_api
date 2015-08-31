@@ -20,17 +20,6 @@ defmodule DoorbellApi.BillingControllerTest do
     {:ok, conn: conn}
   end
 
-  test "lists all entries on index", %{conn: conn} do
-    conn = get conn, billing_path(conn, :index)
-    assert length(json_response(conn, 200)["data"]) == 2
-  end
-
-  test "does not list all entries and instead responds with unauthorized when authorization header is nonexistent", %{conn: conn} do
-    conn = delete_req_header(conn, "authorization")
-    conn = get conn, billing_path(conn, :index)
-    assert json_response(conn, 401)["error"] == "Unauthorized"
-  end
-
   test "shows chosen resource", %{conn: conn} do
     billing = Repo.insert! %Billing{user_id: 1}
     conn = get conn, billing_path(conn, :show, billing)

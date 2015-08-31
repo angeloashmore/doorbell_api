@@ -18,17 +18,6 @@ defmodule DoorbellApi.TeamMemberControllerTest do
     {:ok, conn: conn}
   end
 
-  test "lists all entries on index", %{conn: conn} do
-    conn = get conn, team_member_path(conn, :index)
-    assert json_response(conn, 200)["data"] == []
-  end
-
-  test "does not list all entries and instead responds with unauthorized when authorization header is nonexistent", %{conn: conn} do
-    conn = delete_req_header(conn, "authorization")
-    conn = get conn, team_member_path(conn, :index)
-    assert json_response(conn, 401)["error"] == "Unauthorized"
-  end
-
   test "shows chosen resource", %{conn: conn} do
     team_member = Repo.insert! %TeamMember{team_id: 1, user_id: 1}
     conn = get conn, team_member_path(conn, :show, team_member)

@@ -10,10 +10,10 @@ defmodule DoorbellApi.Router do
   scope "/", DoorbellApi do
     pipe_through :api
 
-    resources "/billings", BillingController, except: [:new, :delete]
+    resources "/billings", BillingController, only: [:show, :update]
     resources "/plans", PlanController, only: [:index, :show]
     resources "/teams", TeamController, except: [:new]
-    resources "/team_members", TeamMemberController, except: [:new]
-    resources "/users", UserController, except: [:new, :delete]
+    resources "/team_members", TeamMemberController, except: [:index, :new]
+    resources "/users", UserController, only: [:create, :show, :update]
   end
 end

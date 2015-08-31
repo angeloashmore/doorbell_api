@@ -6,10 +6,6 @@ defmodule DoorbellApi.TeamMemberController do
   plug :load_and_authorize_resource, model: TeamMember
   plug DoorbellApi.Plugs.Unauthorized
 
-  def index(%{assigns: %{team_members: team_members}} = conn, _params) do
-    render(conn, "index.json", team_members: team_members)
-  end
-
   def create(conn, %{"team_member" => team_member_params}) do
     changeset = TeamMember.changeset(%TeamMember{}, team_member_params)
 

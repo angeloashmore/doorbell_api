@@ -6,10 +6,6 @@ defmodule DoorbellApi.UserController do
   plug :load_and_authorize_resource, model: User
   plug DoorbellApi.Plugs.Unauthorized
 
-  def index(%{assigns: %{users: users}} = conn, _params) do
-    render(conn, "index.json", users: users)
-  end
-
   def create(conn, %{"user" => user_params}) do
     changeset = User.changeset(%User{}, user_params)
 

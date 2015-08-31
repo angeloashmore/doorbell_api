@@ -8,9 +8,6 @@ defimpl Canada.Can, for: DoorbellApi.User do
   alias DoorbellApi.TeamMember
   alias DoorbellApi.User
 
-  # Billing
-  def can?(%User{}, :index, Billing), do: true
-
   # Billing (User)
   def can?(%User{id: user_id}, action, %Billing{user_id: user_id})
     when action in [:show, :update] and not is_nil(user_id), do: true
@@ -37,7 +34,7 @@ defimpl Canada.Can, for: DoorbellApi.User do
     do: has_roles_for_team?(user, team, ["owner"])
 
   # Team Member
-  def can?(%User{}, action, TeamMember) when action in [:index, :create], do: true
+  def can?(%User{}, :create, TeamMember), do: true
   def can?(%User{} = user, :show, %TeamMember{team_id: team_id}),
     do: is_member_of_team?(user, %Team{id: team_id})
   def can?(%User{} = user, action, %TeamMember{team_id: team_id})
@@ -45,12 +42,12 @@ defimpl Canada.Can, for: DoorbellApi.User do
     do: has_roles_for_team?(user, %Team{id: team_id}, ["owner", "admin"])
 
   # User
-  def can?(%User{}, action, User) when action in [:index, :create], do: true
+  def can?(%User{}, :create, User), do: true
   def can?(%User{id: user_id}, action, %User{id: user_id})
     when action in [:show, :update], do: true
 
   # Default all other actions to false
-  def can?(%User{}, _action, _model), do: false
+  def can?(%User{}, _, _), do: false
 
   defp is_member_of_team?(%User{id: user_id}, %Team{id: team_id})
     when not is_nil(team_id) do
