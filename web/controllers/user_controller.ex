@@ -21,11 +21,11 @@ defmodule DoorbellApi.UserController do
     end
   end
 
-  def show(%{assigns: %{user: user}} = conn, %{"id" => id}) do
+  def show(%{assigns: %{user: user}} = conn, _params) do
     render conn, "show.json", user: user
   end
 
-  def update(%{assigns: %{user: user}} = conn, %{"id" => id, "user" => user_params}) do
+  def update(%{assigns: %{user: user}} = conn, %{"user" => user_params}) do
     changeset = User.changeset(user, user_params)
 
     case Repo.update(changeset) do

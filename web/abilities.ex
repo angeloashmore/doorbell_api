@@ -13,11 +13,8 @@ defimpl Canada.Can, for: DoorbellApi.User do
     when action in [:show, :update] and not is_nil(user_id), do: true
 
   # Billing (Team)
-  def can?(%User{} = user, :show, %Billing{team_id: team_id})
-    when not is_nil(team_id),
-    do: is_member_of_team?(user, %Team{id: team_id})
-  def can?(%User{} = user, :update, %Billing{team_id: team_id})
-    when not is_nil(team_id),
+  def can?(%User{} = user, action, %Billing{team_id: team_id})
+    when action in [:show, :update] and not is_nil(team_id),
     do: has_roles_for_team?(user, %Team{id: team_id}, ["owner", "billing"])
 
   # Plan

@@ -10,7 +10,7 @@ defmodule DoorbellApi.PlanController do
     render(conn, "index.json", plans: plans)
   end
 
-  def show(%{assigns: %{plan: plan}} = conn, %{"id" => id}) do
+  def show(%{assigns: %{plan: plan}} = conn, _params) do
     render conn, "show.json", plan: plan
   end
 end

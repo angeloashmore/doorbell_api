@@ -21,11 +21,11 @@ defmodule DoorbellApi.TeamMemberController do
     end
   end
 
-  def show(%{assigns: %{team_member: team_member}} = conn, %{"id" => id}) do
+  def show(%{assigns: %{team_member: team_member}} = conn, _params) do
     render conn, "show.json", team_member: team_member
   end
 
-  def update(%{assigns: %{team_member: team_member}} = conn, %{"id" => id, "team_member" => team_member_params}) do
+  def update(%{assigns: %{team_member: team_member}} = conn, %{"team_member" => team_member_params}) do
     changeset = TeamMember.changeset(team_member, team_member_params)
 
     case Repo.update(changeset) do
@@ -38,10 +38,10 @@ defmodule DoorbellApi.TeamMemberController do
     end
   end
 
-  def delete(%{assigns: %{team_member: team_member}} = conn, %{"id" => id}) do
+  def delete(%{assigns: %{team_member: team_member}} = conn, _params) do
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).
-    team_member = Repo.delete!(team_member)
+    Repo.delete!(team_member)
 
     send_resp(conn, :no_content, "")
   end

@@ -6,11 +6,11 @@ defmodule DoorbellApi.BillingController do
   plug :load_and_authorize_resource, model: Billing
   plug DoorbellApi.Plugs.Unauthorized
 
-  def show(%{assigns: %{billing: billing}} = conn, %{"id" => id}) do
+  def show(%{assigns: %{billing: billing}} = conn, _params) do
     render conn, "show.json", billing: billing
   end
 
-  def update(%{assigns: %{billing: billing}} = conn, %{"id" => id, "billing" => billing_params}) do
+  def update(%{assigns: %{billing: billing}} = conn, %{"billing" => billing_params}) do
     changeset = Billing.changeset(billing, billing_params)
 
     case Repo.update(changeset) do
