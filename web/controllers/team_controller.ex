@@ -6,8 +6,7 @@ defmodule DoorbellApi.TeamController do
   plug :load_and_authorize_resource, model: Team
   plug DoorbellApi.Plugs.Unauthorized
 
-  def index(conn, _params) do
-    teams = Repo.all(Team)
+  def index(%{assigns: %{teams: teams}} = conn, _params) do
     render(conn, "index.json", teams: teams)
   end
 
@@ -26,13 +25,11 @@ defmodule DoorbellApi.TeamController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    team = conn.assigns.team
+  def show(%{assigns: %{team: team}} = conn, %{"id" => id}) do
     render conn, "show.json", team: team
   end
 
-  def update(conn, %{"id" => id, "team" => team_params}) do
-    team = conn.assigns.team
+  def update(%{assigns: %{team: team}} = conn, %{"id" => id, "team" => team_params}) do
     changeset = Team.changeset(team, team_params)
 
     case Repo.update(changeset) do
@@ -45,9 +42,7 @@ defmodule DoorbellApi.TeamController do
     end
   end
 
-  def delete(conn, %{"id" => id}) do
-    team = conn.assigns.team
-
+  def delete(%{assigns: %{team: team}} = conn, %{"id" => id}) do
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).
     team = Repo.delete!(team)

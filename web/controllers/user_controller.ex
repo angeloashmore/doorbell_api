@@ -6,8 +6,7 @@ defmodule DoorbellApi.UserController do
   plug :load_and_authorize_resource, model: User
   plug DoorbellApi.Plugs.Unauthorized
 
-  def index(conn, _params) do
-    users = Repo.all(User)
+  def index(%{assigns: %{users: users}} = conn, _params) do
     render(conn, "index.json", users: users)
   end
 
@@ -26,13 +25,11 @@ defmodule DoorbellApi.UserController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    user = conn.assigns.user
+  def show(%{assigns: %{user: user}} = conn, %{"id" => id}) do
     render conn, "show.json", user: user
   end
 
-  def update(conn, %{"id" => id, "user" => user_params}) do
-    user = conn.assigns.user
+  def update(%{assigns: %{user: user}} = conn, %{"id" => id, "user" => user_params}) do
     changeset = User.changeset(user, user_params)
 
     case Repo.update(changeset) do

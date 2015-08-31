@@ -6,13 +6,11 @@ defmodule DoorbellApi.PlanController do
   plug :load_and_authorize_resource, model: Plan
   plug DoorbellApi.Plugs.Unauthorized
 
-  def index(conn, _params) do
-    plans = Repo.all(Plan)
+  def index(%{assigns: %{plans: plans}} = conn, _params) do
     render(conn, "index.json", plans: plans)
   end
 
-  def show(conn, %{"id" => id}) do
-    plan = conn.assigns.plan
+  def show(%{assigns: %{plan: plan}} = conn, %{"id" => id}) do
     render conn, "show.json", plan: plan
   end
 end

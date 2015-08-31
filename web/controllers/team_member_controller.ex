@@ -6,8 +6,7 @@ defmodule DoorbellApi.TeamMemberController do
   plug :load_and_authorize_resource, model: TeamMember
   plug DoorbellApi.Plugs.Unauthorized
 
-  def index(conn, _params) do
-    team_members = Repo.all(TeamMember)
+  def index(%{assigns: %{team_members: team_members}} = conn, _params) do
     render(conn, "index.json", team_members: team_members)
   end
 
@@ -26,13 +25,11 @@ defmodule DoorbellApi.TeamMemberController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    team_member = conn.assigns.team_member
+  def show(%{assigns: %{team_member: team_member}} = conn, %{"id" => id}) do
     render conn, "show.json", team_member: team_member
   end
 
-  def update(conn, %{"id" => id, "team_member" => team_member_params}) do
-    team_member = conn.assigns.team_member
+  def update(%{assigns: %{team_member: team_member}} = conn, %{"id" => id, "team_member" => team_member_params}) do
     changeset = TeamMember.changeset(team_member, team_member_params)
 
     case Repo.update(changeset) do
@@ -45,9 +42,7 @@ defmodule DoorbellApi.TeamMemberController do
     end
   end
 
-  def delete(conn, %{"id" => id}) do
-    team_member = conn.assigns.team_member
-
+  def delete(%{assigns: %{team_member: team_member}} = conn, %{"id" => id}) do
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).
     team_member = Repo.delete!(team_member)
