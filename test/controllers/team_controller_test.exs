@@ -26,11 +26,20 @@ defmodule DoorbellApi.TeamControllerTest do
 
   test "shows chosen resource", %{conn: conn} do
     team = Repo.insert! %Team{}
-    Repo.insert!(%TeamMember{team_id: team.id, user_id: 1})
+    team_member = Repo.insert!(%TeamMember{team_id: team.id, user_id: 1})
     conn = get conn, team_path(conn, :show, team)
     assert json_response(conn, 200)["data"] == %{"id" => team.id,
       "name" => team.name,
-      "email" => team.email}
+      "email" => team.email,
+      "team_members" => [%{
+        "id" => team_member.id,
+        "team_id" => team_member.team_id,
+        "user_id" => team_member.user_id,
+        "email" => team_member.email,
+        "title" => team_member.title,
+        "private" => team_member.private,
+        "roles" => team_member.roles
+      }]}
   end
 
   test "does not show resource and instead responds with unauthorized when id is nonexistent", %{conn: conn} do
