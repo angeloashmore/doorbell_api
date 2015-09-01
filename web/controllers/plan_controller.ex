@@ -4,7 +4,7 @@ defmodule DoorbellApi.PlanController do
   alias DoorbellApi.Plan
 
   plug :load_and_authorize_resource, model: Plan
-  plug DoorbellApi.Plugs.Unauthorized
+  plug :halt_unauthorized_user
 
   def index(%{assigns: %{plans: plans}} = conn, _params) do
     render(conn, "index.json", plans: plans)

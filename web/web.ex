@@ -28,6 +28,7 @@ defmodule DoorbellApi.Web do
 
       alias DoorbellApi.Repo
       import Canary.Plugs
+      import DoorbellApi.Plugs.HaltUnauthorizedUser
       import Ecto.Model
       import Ecto.Query, only: [from: 1, from: 2]
 
@@ -46,6 +47,8 @@ defmodule DoorbellApi.Web do
   def router do
     quote do
       use Phoenix.Router
+
+      import DoorbellApi.Plugs.AssignCurrentUser
 
       alias DoorbellApi.JokenPlugConfig
     end

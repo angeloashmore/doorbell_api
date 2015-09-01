@@ -4,7 +4,7 @@ defmodule DoorbellApi.UserController do
   alias DoorbellApi.User
 
   plug :load_and_authorize_resource, model: User
-  plug DoorbellApi.Plugs.Unauthorized
+  plug :halt_unauthorized_user
 
   def create(conn, %{"user" => user_params}) do
     changeset = User.changeset(%User{}, user_params)

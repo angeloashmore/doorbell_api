@@ -4,7 +4,7 @@ defmodule DoorbellApi.BillingController do
   alias DoorbellApi.Billing
 
   plug :load_and_authorize_resource, model: Billing
-  plug DoorbellApi.Plugs.Unauthorized
+  plug :halt_unauthorized_user
 
   def show(%{assigns: %{billing: billing}} = conn, _params) do
     render conn, "show.json", billing: billing

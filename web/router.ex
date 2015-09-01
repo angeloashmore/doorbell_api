@@ -4,7 +4,7 @@ defmodule DoorbellApi.Router do
   pipeline :api do
     plug :accepts, ["json"]
     plug Joken.Plug, on_verifying: &JokenPlugConfig.on_verifying/0, on_error: &JokenPlugConfig.on_error/2
-    plug DoorbellApi.Plugs.CurrentUser
+    plug :assign_current_user
   end
 
   scope "/", DoorbellApi do

@@ -4,7 +4,7 @@ defmodule DoorbellApi.TeamMemberController do
   alias DoorbellApi.TeamMember
 
   plug :load_and_authorize_resource, model: TeamMember
-  plug DoorbellApi.Plugs.Unauthorized
+  plug :halt_unauthorized_user
 
   def create(conn, %{"team_member" => team_member_params}) do
     changeset = TeamMember.changeset(%TeamMember{}, team_member_params)

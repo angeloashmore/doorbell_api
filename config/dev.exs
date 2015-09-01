@@ -48,7 +48,5 @@ config :stripe,
 config :auth0,
   client_id: "g9Szm80Ac6T4LJ5t1cUa8AH77ZYFz7s9",
   client_secret: "cuhRKugh1cNejCJjWEsI7BIAd6EvNT7uHujuDwlqh-nCXJhm9V9AI6VP99zhEO3r"
-
-# Configure Canary
-config :canary,
-  repo: DoorbellApi.Repo
+  doorbell_client_id: "rdSmqCS5jb1k4WPcEZLg/+KajhmaKp5o2PtBeKNC3uM=",
+  doorbell_client_secret: "kV1M8T7+k95MfGqdBmj3ihTnouz4jPQN4U9hYHw4beU="

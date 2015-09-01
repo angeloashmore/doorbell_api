@@ -4,7 +4,7 @@ defmodule DoorbellApi.TeamController do
   alias DoorbellApi.Team
 
   plug :load_and_authorize_resource, model: Team
-  plug DoorbellApi.Plugs.Unauthorized
+  plug :halt_unauthorized_user
 
   def index(%{assigns: %{teams: teams}} = conn, _params) do
     render(conn, "index.json", teams: teams)

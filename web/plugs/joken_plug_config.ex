@@ -11,3 +11,14 @@ defmodule DoorbellApi.JokenPlugConfig do
     { conn, %{error: message} }
   end
 end
+
+defmodule DoorbellApi.JokenPlugConfig.Auth0 do
+  import Joken
+  import DoorbellApi.JokenPlugConfig
+
+  def on_verifying do
+    token(%{})
+    |> with_validation(:aud, &(&1 == Application.get_env(:auth0, :doorbell_client_id)))
+    |> with_signer(hs256(Application.get_env(:auth0, :doorbell_client_secret)))
+  end
+end
