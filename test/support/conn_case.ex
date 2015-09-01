@@ -34,7 +34,7 @@ defmodule DoorbellApi.ConnCase do
       @valid_jwt token
       |> with_sub("remote_1")
       |> with_aud(Application.get_env(:auth0, :client_id))
-      |> with_signer(hs256(Application.get_env(:auth0, :client_secret)))
+      |> with_signer(hs256(:base64url.decode(Application.get_env(:auth0, :client_secret))))
       |> sign
       |> get_compact
 
@@ -42,7 +42,7 @@ defmodule DoorbellApi.ConnCase do
       @valid_auth0_jwt token
       |> with_sub("remote_1")
       |> with_aud(Application.get_env(:auth0, :doorbell_client_id))
-      |> with_signer(hs256(Application.get_env(:auth0, :doorbell_client_secret)))
+      |> with_signer(hs256(:base64url.decode(Application.get_env(:auth0, :doorbell_client_secret))))
       |> sign
       |> get_compact
     end

@@ -1,6 +1,4 @@
 defimpl Canada.Can, for: DoorbellApi.User do
-  import Ecto.Query, only: [from: 1, from: 2]
-
   alias DoorbellApi.Repo
   alias DoorbellApi.Billing
   alias DoorbellApi.Plan
@@ -39,7 +37,6 @@ defimpl Canada.Can, for: DoorbellApi.User do
     do: has_roles_for_team?(user, %Team{id: team_id}, ["owner", "admin"])
 
   # User
-  def can?(%User{}, :create, User), do: true
   def can?(%User{id: user_id}, action, %User{id: user_id})
     when action in [:show, :update], do: true
 

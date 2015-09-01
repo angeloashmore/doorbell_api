@@ -4,7 +4,7 @@ defmodule DoorbellApi.TeamController do
   alias DoorbellApi.Team
 
   plug :authorize_resource, model: Team
-  plug :load_resource, model: Team, except: [:index]
+  plug :load_resource, model: Team, except: :index
   plug :halt_unauthorized_user
 
   def index(conn, _params) do
