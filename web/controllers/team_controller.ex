@@ -3,10 +3,16 @@ defmodule DoorbellApi.TeamController do
 
   alias DoorbellApi.Team
 
-  plug :load_and_authorize_resource, model: Team
+  plug :authorize_resource, model: Team
+  plug :load_resource, model: Team, except: [:index]
   plug :halt_unauthorized_user
 
-  def index(%{assigns: %{teams: teams}} = conn, _params) do
+  def index(conn, _params) do
+    query = from t in Team,
+      join: tm in assoc(t, :team_members),
+      where: tm.user_id == ^conn.assigns.current_user.id,
+      select: t
+    teams = Repo.all(query)
     render(conn, "index.json", teams: teams)
   end
 

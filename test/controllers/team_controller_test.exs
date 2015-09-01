@@ -15,7 +15,7 @@ defmodule DoorbellApi.TeamControllerTest do
 
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, team_path(conn, :index)
-    assert length(json_response(conn, 200)["data"]) == 1
+    assert json_response(conn, 200)["data"] == []
   end
 
   test "does not list all entries and instead responds with unauthorized when authorization header is nonexistent", %{conn: conn} do
