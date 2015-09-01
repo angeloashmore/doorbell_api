@@ -3,18 +3,21 @@ defmodule DoorbellApi.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+  end
+
+  pipeline :authorization do
     plug Joken.Plug, on_verifying: &JokenPlugConfig.on_verifying/0, on_error: &JokenPlugConfig.on_error/2
     plug :assign_current_user
   end
 
-  pipeline :api_auth0 do
-    plug :accepts, ["json"]
+  pipeline :auth0_authorization do
     plug Joken.Plug, on_verifying: &JokenPlugConfig.Auth0.on_verifying/0, on_error: &JokenPlugConfig.Auth0.on_error/2
     plug :assign_current_user
   end
 
   scope "/", DoorbellApi do
     pipe_through :api
+    pipe_through :authorization
 
     resources "/billings", BillingController, only: [:show, :update]
     resources "/plans", PlanController, only: [:index, :show]
@@ -24,7 +27,8 @@ defmodule DoorbellApi.Router do
   end
 
   scope "/", DoorbellApi do
-    pipe_through :api_auth0
+    pipe_through :api
+    pipe_through :auth0_authorization
 
     post "/users", UserController, :create
   end
