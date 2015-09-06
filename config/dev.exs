@@ -46,7 +46,7 @@ config :stripe,
 
 # Configure Auth0 account
 config :auth0,
-  client_id: "HWhD1xqXD4FOKpsrQCZv3AO9pO9W2ZTN",
-  client_secret: "9PageTiEqQC4vKhRFPW4k9Twxm0Tr2lUVyPTTS83HZvwDt6H8Vzql9fJ-kvi3H3D",
+  client_id: "9qmS3UpQ2YdtU9ni72SqQCFD3qEprz3X",
+  client_secret: "D-oDfwNGXbafthQjyEqwZnyURecSJBKfOv8jeENDXtuMU67M9oFpnhUu0fbBjb0U",
   doorbell_client_id: "rdSmqCS5jb1k4WPcEZLg/+KajhmaKp5o2PtBeKNC3uM=",
   doorbell_client_secret: "kV1M8T7+k95MfGqdBmj3ihTnouz4jPQN4U9hYHw4beU="

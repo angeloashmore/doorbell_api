@@ -6,7 +6,7 @@ defmodule DoorbellApi.JokenPlugConfig do
     |> :base64url.decode
     |> hs256
 
-    token
+    token(%{})
     |> with_validation(:aud, &(&1 == Application.get_env(:auth0, :client_id)))
     |> with_signer(signer)
   end
@@ -24,7 +24,7 @@ defmodule DoorbellApi.JokenPlugConfig.Auth0 do
     |> :base64url.decode
     |> hs256
 
-    token
+    token(%{})
     |> with_validation(:aud, &(&1 == Application.get_env(:auth0, :doorbell_client_id)))
     |> with_signer(signer)
   end
