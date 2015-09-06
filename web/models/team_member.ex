@@ -10,6 +10,8 @@ defmodule DoorbellApi.TeamMember do
     belongs_to :user, DoorbellApi.User
     belongs_to :team, DoorbellApi.Team
 
+    has_many :chat_messages, DoorbellApi.ChatMessage, on_delete: :nilify_all
+
     timestamps
   end
 

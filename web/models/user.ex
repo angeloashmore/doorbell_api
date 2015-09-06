@@ -13,6 +13,7 @@ defmodule DoorbellApi.User do
     field :name, :string
 
     has_one :billing, Billing, on_delete: :delete_all
+    has_many :chat_messages, DoorbellApi.ChatMessage, on_delete: :nilify_all
 
     timestamps
   end
