@@ -3,7 +3,7 @@ defimpl Canada.Can, for: DoorbellApi.User do
   alias DoorbellApi.Billing
   alias DoorbellApi.Plan
   alias DoorbellApi.Team
-  alias DoorbellApi.TeamMember
+  alias DoorbellApi.TeamUser
   alias DoorbellApi.User
 
   # Billing (User)
@@ -22,17 +22,17 @@ defimpl Canada.Can, for: DoorbellApi.User do
   # Team
   def can?(%User{}, action, Team) when action in [:index, :create], do: true
   def can?(%User{} = user, :show, %Team{} = team),
-    do: is_member_of_team?(user, team)
+    do: is_user_of_team?(user, team)
   def can?(%User{} = user, :update, %Team{} = team),
     do: has_roles_for_team?(user, team, ["owner", "admin"])
   def can?(%User{} = user, :delete, %Team{} = team),
     do: has_roles_for_team?(user, team, ["owner"])
 
-  # Team Member
-  def can?(%User{}, :create, TeamMember), do: true
-  def can?(%User{} = user, :show, %TeamMember{team_id: team_id}),
-    do: is_member_of_team?(user, %Team{id: team_id})
-  def can?(%User{} = user, action, %TeamMember{team_id: team_id})
+  # Team User
+  def can?(%User{}, :create, TeamUser), do: true
+  def can?(%User{} = user, :show, %TeamUser{team_id: team_id}),
+    do: is_user_of_team?(user, %Team{id: team_id})
+  def can?(%User{} = user, action, %TeamUser{team_id: team_id})
     when action in [:update, :delete],
     do: has_roles_for_team?(user, %Team{id: team_id}, ["owner", "admin"])
 
@@ -43,15 +43,15 @@ defimpl Canada.Can, for: DoorbellApi.User do
   # Default all other actions to false
   def can?(%User{}, _, _), do: false
 
-  defp is_member_of_team?(%User{id: user_id}, %Team{id: team_id})
+  defp is_user_of_team?(%User{id: user_id}, %Team{id: team_id})
     when not is_nil(team_id) do
-    !is_nil Repo.get_by(TeamMember, team_id: team_id, user_id: user_id)
+    !is_nil Repo.get_by(TeamUser, team_id: team_id, user_id: user_id)
   end
-  defp is_member_of_team?(_, _), do: false
+  defp is_user_of_team?(_, _), do: false
 
   defp has_roles_for_team?(%User{id: user_id}, %Team{id: team_id}, roles)
     when not is_nil(team_id) do
-    (Repo.get_by(TeamMember, team_id: team_id, user_id: user_id) || %{})
+    (Repo.get_by(TeamUser, team_id: team_id, user_id: user_id) || %{})
     |> Map.get(:roles, [])
     |> Enum.any? fn x -> x in roles end
   end

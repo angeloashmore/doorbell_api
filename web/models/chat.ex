@@ -2,16 +2,14 @@ defmodule DoorbellApi.Chat do
   use DoorbellApi.Web, :model
 
   schema "chats" do
-    field :name, :string
+    field :place_id, :string
 
     has_many :chat_messages, DoorbellApi.ChatMessage, on_delete: :delete_all
-    has_many :chat_messages_users, through: [:chat_messages, :user]
-    has_many :chat_messages_team_members, through: [:chat_messages, :team_members]
 
     timestamps
   end
 
-  @required_fields ~w(name)
+  @required_fields ~w(place_id)
   @optional_fields ~w()
 
   @doc """

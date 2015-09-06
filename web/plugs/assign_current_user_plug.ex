@@ -8,7 +8,7 @@ defmodule DoorbellApi.Plugs.AssignCurrentUser do
   Load the user model using the JWT `sub` claim set by Joken.
   """
   @spec assign_current_user(Plug.Conn.t, map) :: Plug.Conn.t
-  def assign_current_user(%Plug.Conn{assigns: %{joken_claims: %{sub: remote_user_id}}} = conn, _opts) do
+  def assign_current_user(%Plug.Conn{assigns: %{joken_claims: %{"sub" => remote_user_id}}} = conn, _opts) do
     user = Repo.get_by(User, remote_id: remote_user_id)
     conn |> assign :current_user, user
   end

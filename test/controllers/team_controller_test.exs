@@ -2,7 +2,7 @@ defmodule DoorbellApi.TeamControllerTest do
   use DoorbellApi.ConnCase
 
   alias DoorbellApi.Team
-  alias DoorbellApi.TeamMember
+  alias DoorbellApi.TeamUser
   @valid_attrs %{email: "name@example.com", name: "Doorbell"}
   @invalid_attrs %{}
 
@@ -26,19 +26,19 @@ defmodule DoorbellApi.TeamControllerTest do
 
   test "shows chosen resource", %{conn: conn} do
     team = Repo.insert! %Team{}
-    team_member = Repo.insert!(%TeamMember{team_id: team.id, user_id: 1})
+    team_user = Repo.insert!(%TeamUser{team_id: team.id, user_id: 1})
     conn = get conn, team_path(conn, :show, team)
     assert json_response(conn, 200)["data"] == %{"id" => team.id,
       "name" => team.name,
       "email" => team.email,
-      "team_members" => [%{
-        "id" => team_member.id,
-        "team_id" => team_member.team_id,
-        "user_id" => team_member.user_id,
-        "email" => team_member.email,
-        "title" => team_member.title,
-        "private" => team_member.private,
-        "roles" => team_member.roles
+      "team_users" => [%{
+        "id" => team_user.id,
+        "team_id" => team_user.team_id,
+        "user_id" => team_user.user_id,
+        "email" => team_user.email,
+        "title" => team_user.title,
+        "private" => team_user.private,
+        "roles" => team_user.roles
       }]}
   end
 
@@ -73,7 +73,7 @@ defmodule DoorbellApi.TeamControllerTest do
 
   test "updates and renders chosen resource when data is valid", %{conn: conn} do
     team = Repo.insert! %Team{}
-    Repo.insert!(%TeamMember{team_id: team.id, user_id: 1, roles: ["owner"]})
+    Repo.insert!(%TeamUser{team_id: team.id, user_id: 1, roles: ["owner"]})
     conn = put conn, team_path(conn, :update, team), team: @valid_attrs
     assert json_response(conn, 200)["data"]["id"]
     assert Repo.get_by(Team, @valid_attrs)
@@ -81,7 +81,7 @@ defmodule DoorbellApi.TeamControllerTest do
 
   test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
     team = Repo.insert! %Team{}
-    Repo.insert!(%TeamMember{team_id: team.id, user_id: 1, roles: ["owner"]})
+    Repo.insert!(%TeamUser{team_id: team.id, user_id: 1, roles: ["owner"]})
     conn = put conn, team_path(conn, :update, team), team: @invalid_attrs
     assert json_response(conn, 422)["error"] != %{}
   end
@@ -95,7 +95,7 @@ defmodule DoorbellApi.TeamControllerTest do
 
   test "deletes chosen resource", %{conn: conn} do
     team = Repo.insert! %Team{}
-    Repo.insert!(%TeamMember{team_id: team.id, user_id: 1, roles: ["owner"]})
+    Repo.insert!(%TeamUser{team_id: team.id, user_id: 1, roles: ["owner"]})
     conn = delete conn, team_path(conn, :delete, team)
     assert response(conn, 204)
     refute Repo.get(Team, team.id)

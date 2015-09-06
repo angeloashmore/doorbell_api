@@ -1,7 +1,7 @@
-defmodule DoorbellApi.TeamMemberControllerTest do
+defmodule DoorbellApi.TeamUserControllerTest do
   use DoorbellApi.ConnCase
 
-  alias DoorbellApi.TeamMember
+  alias DoorbellApi.TeamUser
   @valid_attrs %{
     email: "name@example.com",
     private: true,
@@ -19,82 +19,82 @@ defmodule DoorbellApi.TeamMemberControllerTest do
   end
 
   test "shows chosen resource", %{conn: conn} do
-    team_member = Repo.insert! %TeamMember{team_id: 1, user_id: 1}
-    conn = get conn, team_member_path(conn, :show, team_member)
-    assert json_response(conn, 200)["data"] == %{"id" => team_member.id,
-      "user_id" => team_member.user_id,
-      "team_id" => team_member.team_id,
-      "title" => team_member.title,
-      "email" => team_member.email,
-      "private" => team_member.private,
-      "roles" => team_member.roles}
+    team_user = Repo.insert! %TeamUser{team_id: 1, user_id: 1}
+    conn = get conn, team_user_path(conn, :show, team_user)
+    assert json_response(conn, 200)["data"] == %{"id" => team_user.id,
+      "user_id" => team_user.user_id,
+      "team_id" => team_user.team_id,
+      "title" => team_user.title,
+      "email" => team_user.email,
+      "private" => team_user.private,
+      "roles" => team_user.roles}
   end
 
   test "does not show resource and instead responds with unauthorized when id is nonexistent", %{conn: conn} do
-    conn = get conn, team_member_path(conn, :show, -1)
+    conn = get conn, team_user_path(conn, :show, -1)
     assert json_response(conn, 401)["error"] == "Unauthorized"
   end
 
   test "does not show resource and instead responds with unauthorized when authorization header is nonexistent", %{conn: conn} do
-    team_member = Repo.insert! %TeamMember{team_id: 1}
+    team_user = Repo.insert! %TeamUser{team_id: 1}
     conn = delete_req_header(conn, "authorization")
-    conn = get conn, team_member_path(conn, :show, team_member)
+    conn = get conn, team_user_path(conn, :show, team_user)
     assert json_response(conn, 401)["error"] == "Unauthorized"
   end
 
   test "creates and renders resource when data is valid", %{conn: conn} do
-    Repo.insert!(%TeamMember{team_id: 1, user_id: 1, roles: ["owner"]})
-    conn = post conn, team_member_path(conn, :create), team_member: @valid_attrs
+    Repo.insert!(%TeamUser{team_id: 1, user_id: 1, roles: ["owner"]})
+    conn = post conn, team_user_path(conn, :create), team_user: @valid_attrs
     assert json_response(conn, 201)["data"]["id"]
-    assert Repo.get_by(TeamMember, @valid_attrs)
+    assert Repo.get_by(TeamUser, @valid_attrs)
   end
 
   test "does not create resource and renders errors when data is invalid", %{conn: conn} do
-    Repo.insert!(%TeamMember{team_id: 1, user_id: 1, roles: ["owner"]})
-    conn = post conn, team_member_path(conn, :create), team_member: @invalid_attrs
+    Repo.insert!(%TeamUser{team_id: 1, user_id: 1, roles: ["owner"]})
+    conn = post conn, team_user_path(conn, :create), team_user: @invalid_attrs
     assert json_response(conn, 422)["errors"] != %{}
   end
 
   test "does not create resource and instead responds with unauthorized when authorization header is nonexistent", %{conn: conn} do
     conn = delete_req_header(conn, "authorization")
-    conn = post conn, team_member_path(conn, :create), team_member: @valid_attrs
+    conn = post conn, team_user_path(conn, :create), team_user: @valid_attrs
     assert json_response(conn, 401)["error"] == "Unauthorized"
   end
 
   test "updates and renders chosen resource when data is valid", %{conn: conn} do
-    team_member = Repo.insert! %TeamMember{team_id: 1}
-    Repo.insert!(%TeamMember{team_id: 1, user_id: 1, roles: ["owner"]})
-    conn = put conn, team_member_path(conn, :update, team_member), team_member: @valid_attrs
+    team_user = Repo.insert! %TeamUser{team_id: 1}
+    Repo.insert!(%TeamUser{team_id: 1, user_id: 1, roles: ["owner"]})
+    conn = put conn, team_user_path(conn, :update, team_user), team_user: @valid_attrs
     assert json_response(conn, 200)["data"]["id"]
-    assert Repo.get_by(TeamMember, @valid_attrs)
+    assert Repo.get_by(TeamUser, @valid_attrs)
   end
 
   test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
-    team_member = Repo.insert! %TeamMember{team_id: 1}
-    Repo.insert!(%TeamMember{team_id: 1, user_id: 1, roles: ["owner"]})
-    conn = put conn, team_member_path(conn, :update, team_member), team_member: @invalid_attrs
+    team_user = Repo.insert! %TeamUser{team_id: 1}
+    Repo.insert!(%TeamUser{team_id: 1, user_id: 1, roles: ["owner"]})
+    conn = put conn, team_user_path(conn, :update, team_user), team_user: @invalid_attrs
     assert json_response(conn, 422)["errors"] != %{}
   end
 
   test "does not update chosen resource and instead responds with unauthorized when authorization header is nonexistent", %{conn: conn} do
-    team_member = Repo.insert! %TeamMember{}
+    team_user = Repo.insert! %TeamUser{}
     conn = delete_req_header(conn, "authorization")
-    conn = put conn, team_member_path(conn, :update, team_member), team_member: @valid_attrs
+    conn = put conn, team_user_path(conn, :update, team_user), team_user: @valid_attrs
     assert json_response(conn, 401)["error"] == "Unauthorized"
   end
 
   test "deletes chosen resource", %{conn: conn} do
-    team_member = Repo.insert! %TeamMember{team_id: 1}
-    Repo.insert!(%TeamMember{team_id: 1, user_id: 1, roles: ["owner"]})
-    conn = delete conn, team_member_path(conn, :delete, team_member)
+    team_user = Repo.insert! %TeamUser{team_id: 1}
+    Repo.insert!(%TeamUser{team_id: 1, user_id: 1, roles: ["owner"]})
+    conn = delete conn, team_user_path(conn, :delete, team_user)
     assert response(conn, 204)
-    refute Repo.get(TeamMember, team_member.id)
+    refute Repo.get(TeamUser, team_user.id)
   end
 
   test "does not delete chosen resource and instead responds with unauthorized when authorization header is nonexistent", %{conn: conn} do
-    team_member = Repo.insert! %TeamMember{}
+    team_user = Repo.insert! %TeamUser{}
     conn = delete_req_header(conn, "authorization")
-    conn = delete conn, team_member_path(conn, :delete, team_member)
+    conn = delete conn, team_user_path(conn, :delete, team_user)
     assert json_response(conn, 401)["error"] == "Unauthorized"
   end
 end

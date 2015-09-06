@@ -1,8 +1,8 @@
-defmodule DoorbellApi.Repo.Migrations.CreateTeamMember do
+defmodule DoorbellApi.Repo.Migrations.CreateTeamUser do
   use Ecto.Migration
 
   def change do
-    create table(:team_members) do
+    create table(:team_users) do
       add :user_id, :integer
       add :team_id, :integer
       add :title, :string

@@ -1,7 +1,7 @@
 defmodule DoorbellApi.TeamView do
   use DoorbellApi.Web, :view
 
-  alias DoorbellApi.TeamMemberView
+  alias DoorbellApi.TeamUserView
 
   def render("index.json", %{teams: teams}) do
     %{data: render_many(teams, DoorbellApi.TeamView, "team.json")}
@@ -12,12 +12,12 @@ defmodule DoorbellApi.TeamView do
   end
 
   def render("team.json", %{team: team}) do
-    team_members = team.team_members
-    |> Enum.map &(TeamMemberView.render("team_member.json", %{team_member: &1}))
+    team_users = team.team_users
+    |> Enum.map &(TeamUserView.render("team_user.json", %{team_user: &1}))
 
     %{id: team.id,
       name: team.name,
       email: team.email,
-      team_members: team_members}
+      team_users: team_users}
   end
 end

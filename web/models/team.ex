@@ -4,7 +4,7 @@ defmodule DoorbellApi.Team do
 
   alias DoorbellApi.Repo
   alias DoorbellApi.Billing
-  alias DoorbellApi.TeamMember
+  alias DoorbellApi.TeamUser
 
   after_insert :create_billing
 
@@ -13,7 +13,7 @@ defmodule DoorbellApi.Team do
     field :email, :string
 
     has_one :billing, Billing, on_delete: :delete_all
-    has_many :team_members, TeamMember, on_delete: :delete_all
+    has_many :team_users, TeamUser, on_delete: :delete_all
 
     timestamps
   end

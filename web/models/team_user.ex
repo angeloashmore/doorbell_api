@@ -1,7 +1,7 @@
-defmodule DoorbellApi.TeamMember do
+defmodule DoorbellApi.TeamUser do
   use DoorbellApi.Web, :model
 
-  schema "team_members" do
+  schema "team_users" do
     field :title, :string
     field :email, :string
     field :private, :boolean, default: false

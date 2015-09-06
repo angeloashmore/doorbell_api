@@ -4,15 +4,15 @@ defmodule DoorbellApi.TeamController do
   alias DoorbellApi.Team
 
   plug :authorize_resource, model: Team
-  plug :load_resource, model: Team, except: :index, preload: :team_members
+  plug :load_resource, model: Team, except: :index, preload: :team_users
   plug :halt_unauthorized_user
 
   def index(conn, _params) do
     query = from t in Team,
-      join: tm in assoc(t, :team_members),
+      join: tm in assoc(t, :team_users),
       where: tm.user_id == ^conn.assigns.current_user.id,
       select: t,
-      preload: :team_members
+      preload: :team_users
     teams = Repo.all(query)
     render(conn, "index.json", teams: teams)
   end
@@ -22,7 +22,7 @@ defmodule DoorbellApi.TeamController do
 
     case Repo.insert(changeset) do
       {:ok, team} ->
-        team = Repo.preload(team, :team_members)
+        team = Repo.preload(team, :team_users)
 
         conn
         |> put_status(:created)
