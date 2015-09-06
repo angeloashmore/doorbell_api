@@ -3,8 +3,8 @@ defmodule DoorbellApi.Repo.Migrations.CreateTeamUser do
 
   def change do
     create table(:team_users) do
-      add :user_id, :integer
-      add :team_id, :integer
+      add :user_id, references(:users)
+      add :team_id, references(:teams)
       add :title, :string
       add :email, :string
       add :private, :boolean, default: false
@@ -12,6 +12,8 @@ defmodule DoorbellApi.Repo.Migrations.CreateTeamUser do
 
       timestamps
     end
+    create index(:team_users, [:user_id])
+    create index(:team_users, [:team_id])
 
   end
 end

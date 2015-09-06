@@ -37,6 +37,9 @@ defmodule DoorbellApi.Billing do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+    |> foreign_key_constraint(:plan_id)
+    |> foreign_key_constraint(:user_id)
+    |> foreign_key_constraint(:team_id)
     |> validate_format(:email, ~r/\A[^@]+@[^@]+\z/)
     |> validate_format(:stripe_customer_id, ~r/^cus_/)
   end

@@ -8,7 +8,7 @@ defmodule DoorbellApi.TeamUserControllerTest do
     roles: ["owner"],
     team_id: 1,
     title: "Owner",
-    user_id: 2}
+    user_id: 1}
   @invalid_attrs %{}
 
   setup do

@@ -3,9 +3,9 @@ defmodule DoorbellApi.Repo.Migrations.CreateBilling do
 
   def change do
     create table(:billings) do
-      add :plan_id, :integer
-      add :user_id, :integer
-      add :team_id, :integer
+      add :plan_id, references(:plans)
+      add :user_id, references(:users)
+      add :team_id, references(:teams)
       add :stripe_customer_id, :string
       add :email, :string
       add :brand, :string
@@ -15,6 +15,9 @@ defmodule DoorbellApi.Repo.Migrations.CreateBilling do
 
       timestamps
     end
+    create index(:billings, [:plan_id])
+    create index(:billings, [:user_id])
+    create index(:billings, [:team_id])
 
   end
 end

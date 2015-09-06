@@ -7,14 +7,13 @@ defmodule DoorbellApi.ChatMessage do
     field :body, :string
 
     belongs_to :chat, DoorbellApi.Chat
-    belongs_to :user, DoorbellApi.User
-    belongs_to :team_user, DoorbellApi.User
+    belongs_to :chat_participant, DoorbellApi.User
 
     timestamps
   end
 
-  @required_fields ~w(chat_id body)
-  @optional_fields ~w(user_id team_user_id)
+  @required_fields ~w(chat_id chat_participant_id body)
+  @optional_fields ~w()
 
   @doc """
   Creates a changeset based on the `model` and `params`.
@@ -25,16 +24,7 @@ defmodule DoorbellApi.ChatMessage do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+    |> foreign_key_constraint(:chat_id)
+    |> foreign_key_constraint(:chat_participant_id)
   end
-
-  @doc """
-  Returns the type of chat message (`:user` or `:team_user`). Returns
-  `:unknown` if neither `user_id` nor `team_user_id` is set.
-  """
-  @spec type(ChatMessage) :: atom
-  def type(%ChatMessage{user_id: user_id})
-    when not is_nil(user_id), do: :user
-  def type(%ChatMessage{team_user_id: team_user_id})
-    when not is_nil(team_user_id), do: :team_user
-  def type(%ChatMessage{}), do: :unknown
 end

@@ -10,7 +10,7 @@ defmodule DoorbellApi.TeamUser do
     belongs_to :user, DoorbellApi.User
     belongs_to :team, DoorbellApi.Team
 
-    has_many :chat_messages, DoorbellApi.ChatMessage, on_delete: :nilify_all
+    has_many :chat_participants, DoorbellApi.ChatParticipant, on_delete: :delete_all
 
     timestamps
   end
@@ -27,6 +27,8 @@ defmodule DoorbellApi.TeamUser do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+    |> foreign_key_constraint(:user_id)
+    |> foreign_key_constraint(:team_id)
     |> validate_format(:email, ~r/\A[^@]+@[^@]+\z/)
     |> validate_subset(:roles, ["owner", "admin", "billing"])
   end

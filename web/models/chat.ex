@@ -4,6 +4,7 @@ defmodule DoorbellApi.Chat do
   schema "chats" do
     field :place_id, :string
 
+    has_many :chat_participants, DoorbellApi.ChatParticipant, on_delete: :delete_all
     has_many :chat_messages, DoorbellApi.ChatMessage, on_delete: :delete_all
 
     timestamps
