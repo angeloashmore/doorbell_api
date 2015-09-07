@@ -42,7 +42,7 @@ defmodule DoorbellApi.TeamUser do
     |> validate_subset(:roles, ["owner", "admin", "billing"])
   end
 
-  @spec create_gen_user(Ecto.Changeset) :: Ecto.Changeset
+  @spec create_gen_user(Ecto.Changeset.t) :: Ecto.Changeset.t
   defp create_gen_user(changeset) do
     build(changeset.model, :gen_user)
     |> Repo.insert!

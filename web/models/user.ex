@@ -40,7 +40,7 @@ defmodule DoorbellApi.User do
     |> unique_constraint(:email, name: :users_email_index)
   end
 
-  @spec create_billing(Ecto.Changeset) :: Ecto.Changeset
+  @spec create_billing(Ecto.Changeset.t) :: Ecto.Changeset.t
   defp create_billing(changeset) do
     build(changeset.model, :billing, email: changeset.model.email)
     |> Repo.insert!
@@ -48,7 +48,7 @@ defmodule DoorbellApi.User do
     changeset
   end
 
-  @spec create_gen_user(Ecto.Changeset) :: Ecto.Changeset
+  @spec create_gen_user(Ecto.Changeset.t) :: Ecto.Changeset.t
   defp create_gen_user(changeset) do
     build(changeset.model, :gen_user)
     |> Repo.insert!

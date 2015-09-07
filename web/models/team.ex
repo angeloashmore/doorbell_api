@@ -33,7 +33,7 @@ defmodule DoorbellApi.Team do
     |> validate_format(:email, ~r/\A[^@]+@[^@]+\z/)
   end
 
-  @spec create_billing(Ecto.Changeset) :: Ecto.Changeset
+  @spec create_billing(Ecto.Changeset.t) :: Ecto.Changeset.t
   defp create_billing(changeset) do
     %{model: %{id: id, email: email}} = changeset
 

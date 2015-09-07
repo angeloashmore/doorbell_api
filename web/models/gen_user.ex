@@ -29,6 +29,7 @@ defmodule DoorbellApi.GenUser do
     |> foreign_key_constraint(:team_user_id)
     |> unique_constraint(:user_id, name: :gen_users_user_id_index)
     |> unique_constraint(:team_user_id, name: :gen_users_team_user_id_index)
+    # |> validate_association
   end
 
   @doc """
@@ -41,4 +42,18 @@ defmodule DoorbellApi.GenUser do
   def type(%GenUser{team_user_id: team_user_id})
     when not is_nil(team_user_id), do: :team_user
   def type(%GenUser{}), do: :unknown
+
+  # TODO: Validate the association only if the changeset includes user_id or
+  #       team_user_id
+  #
+  # @spec validate_association(Ecto.Changeset.t) :: Ecto.Changeset.t
+  # defp validate_association(%{model: %{user_id: user_id, team_user_id: team_user_id}} = changeset)
+  #   when is_nil(user_id) and is_nil(team_user_id) do
+  #   add_error(changeset, :user_id, "user_id or team_id must be set")
+  # end
+  # defp validate_association(%{model: %{user_id: user_id, team_user_id: team_user_id}} = changeset)
+  #   when not is_nil(user_id) and not is_nil(team_user_id) do
+  #   add_error(changeset, :user_id, "user_id or team_id must be set, but not both")
+  # end
+  # defp validate_association(changeset), do: changeset
 end

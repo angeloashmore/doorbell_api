@@ -67,7 +67,7 @@ defmodule DoorbellApi.Billing do
     end
   end
 
-  @spec create_stripe_customer(Ecto.Changeset) :: Ecto.Changeset
+  @spec create_stripe_customer(Ecto.Changeset.t) :: Ecto.Changeset.t
   defp create_stripe_customer(changeset) do
     # %{model: %{email: email}} = changeset
     # %{id: id} = Stripe.Customers.create(%{email: email})
