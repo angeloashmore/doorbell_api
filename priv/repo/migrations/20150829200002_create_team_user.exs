@@ -12,8 +12,7 @@ defmodule DoorbellApi.Repo.Migrations.CreateTeamUser do
 
       timestamps
     end
-    create index(:team_users, [:user_id])
-    create index(:team_users, [:team_id])
+    create unique_index(:team_users, [:user_id, :team_id])
 
   end
 end

@@ -3,7 +3,7 @@ defmodule DoorbellApi.ChatParticipantTest do
 
   alias DoorbellApi.ChatParticipant
 
-  @valid_attrs %{chat_id: 1, user_id: 1}
+  @valid_attrs %{chat_id: 1, gen_user_id: 1}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

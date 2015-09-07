@@ -1,18 +1,16 @@
 defmodule DoorbellApi.ChatMessage do
   use DoorbellApi.Web, :model
 
-  alias DoorbellApi.ChatMessage
-
   schema "chat_messages" do
     field :body, :string
 
     belongs_to :chat, DoorbellApi.Chat
-    belongs_to :chat_participant, DoorbellApi.User
+    belongs_to :gen_user, DoorbellApi.GenUser
 
     timestamps
   end
 
-  @required_fields ~w(chat_id chat_participant_id body)
+  @required_fields ~w(chat_id gen_user_id body)
   @optional_fields ~w()
 
   @doc """
@@ -25,6 +23,6 @@ defmodule DoorbellApi.ChatMessage do
     model
     |> cast(params, @required_fields, @optional_fields)
     |> foreign_key_constraint(:chat_id)
-    |> foreign_key_constraint(:chat_participant_id)
+    |> foreign_key_constraint(:gen_user_id)
   end
 end

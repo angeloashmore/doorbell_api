@@ -40,6 +40,8 @@ defmodule DoorbellApi.Billing do
     |> foreign_key_constraint(:plan_id)
     |> foreign_key_constraint(:user_id)
     |> foreign_key_constraint(:team_id)
+    |> unique_constraint(:user_id, name: :billings_user_id_index)
+    |> unique_constraint(:team_id, name: :billings_team_id_index)
     |> validate_format(:email, ~r/\A[^@]+@[^@]+\z/)
     |> validate_format(:stripe_customer_id, ~r/^cus_/)
   end

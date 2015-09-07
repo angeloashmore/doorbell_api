@@ -4,7 +4,7 @@ defmodule DoorbellApi.UserControllerTest do
   alias DoorbellApi.User
   @valid_attrs %{
     remote_id: "auth0|1234",
-    email: "name@example.com",
+    email: "another@example.com",
     name: "John Doe"}
   @invalid_attrs %{email: "invalidemail.com"}
 

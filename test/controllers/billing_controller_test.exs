@@ -11,7 +11,7 @@ defmodule DoorbellApi.BillingControllerTest do
     last4: "4242",
     exp_month: "03",
     exp_year: "2016"}
-  @invalid_attrs %{}
+  @invalid_attrs %{email: "invalidemail.com"}
 
   setup do
     conn = conn()
@@ -21,7 +21,7 @@ defmodule DoorbellApi.BillingControllerTest do
   end
 
   test "shows chosen resource", %{conn: conn} do
-    billing = Repo.insert! %Billing{user_id: 1}
+    billing = Repo.get Billing, 1
     conn = get conn, billing_path(conn, :show, billing)
     assert json_response(conn, 200)["data"] == %{"id" => billing.id,
       "plan_id" => billing.plan_id,
@@ -41,27 +41,27 @@ defmodule DoorbellApi.BillingControllerTest do
   end
 
   test "does not show resource and instead responds with unauthorized when authorization header is nonexistent", %{conn: conn} do
-    billing = Repo.insert! %Billing{user_id: 1}
+    billing = Repo.get Billing, 1
     conn = delete_req_header(conn, "authorization")
     conn = get conn, billing_path(conn, :show, billing)
     assert json_response(conn, 401)["error"] == "Unauthorized"
   end
 
   test "updates and renders chosen resource when data is valid", %{conn: conn} do
-    billing = Repo.insert! %Billing{user_id: 1}
+    billing = Repo.get Billing, 1
     conn = put conn, billing_path(conn, :update, billing), billing: @valid_attrs
     assert json_response(conn, 200)["data"]["id"]
     assert Repo.get_by(Billing, @valid_attrs)
   end
 
   test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
-    billing = Repo.insert! %Billing{user_id: 1}
+    billing = Repo.get Billing, 1
     conn = put conn, billing_path(conn, :update, billing), billing: @invalid_attrs
     assert json_response(conn, 422)["errors"] != %{}
   end
 
   test "does not update chosen resource and instead responds with unauthorized when authorization header is nonexistent", %{conn: conn} do
-    billing = Repo.insert! %Billing{user_id: 1}
+    billing = Repo.get Billing, 1
     conn = delete_req_header(conn, "authorization")
     conn = put conn, billing_path(conn, :update, billing), billing: @valid_attrs
     assert json_response(conn, 401)["error"] == "Unauthorized"

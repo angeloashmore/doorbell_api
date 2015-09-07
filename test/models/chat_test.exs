@@ -3,7 +3,11 @@ defmodule DoorbellApi.ChatTest do
 
   alias DoorbellApi.Chat
 
-  @valid_attrs %{place_id: "random_id", archived: false}
+  @valid_attrs %{
+    gen_user_id: 1,
+    place_id: "random_id",
+    archived: false
+  }
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

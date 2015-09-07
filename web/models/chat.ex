@@ -4,13 +4,14 @@ defmodule DoorbellApi.Chat do
   schema "chats" do
     field :place_id, :string
 
-    has_many :chat_participants, DoorbellApi.ChatParticipant, on_delete: :delete_all
-    has_many :chat_messages, DoorbellApi.ChatMessage, on_delete: :delete_all
+    belongs_to :gen_user, DoorbellApi.GenUser
+    has_many :chat_participants, DoorbellApi.ChatParticipant, on_delete: :fetch_and_delete
+    has_many :chat_messages, DoorbellApi.ChatMessage, on_delete: :fetch_and_delete
 
     timestamps
   end
 
-  @required_fields ~w(place_id)
+  @required_fields ~w(place_id gen_user_id)
   @optional_fields ~w()
 
   @doc """
@@ -22,5 +23,6 @@ defmodule DoorbellApi.Chat do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+    |> foreign_key_constraint(:gen_user_id)
   end
 end

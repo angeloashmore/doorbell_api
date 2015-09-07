@@ -9,6 +9,8 @@ defmodule DoorbellApi.Repo.Migrations.CreateUser do
 
       timestamps
     end
+    create unique_index(:users, [:remote_id])
+    create unique_index(:users, [:email])
 
   end
 end

@@ -15,9 +15,9 @@ defmodule DoorbellApi.Repo.Migrations.CreateBilling do
 
       timestamps
     end
+    create unique_index(:billings, [:user_id])
+    create unique_index(:billings, [:team_id])
     create index(:billings, [:plan_id])
-    create index(:billings, [:user_id])
-    create index(:billings, [:team_id])
 
   end
 end
