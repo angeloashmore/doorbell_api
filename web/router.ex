@@ -24,6 +24,7 @@ defmodule DoorbellApi.Router do
     resources "/teams", TeamController, except: [:new]
     resources "/team_users", TeamUserController, except: [:index, :new]
     resources "/users", UserController, only: [:show, :update]
+    resources "/chats", ChatController, except: [:new]
   end
 
   scope "/", DoorbellApi do
