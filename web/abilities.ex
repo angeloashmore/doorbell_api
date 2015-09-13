@@ -20,7 +20,7 @@ defimpl Canada.Can, for: DoorbellApi.User do
 
   # Chat
   def can?(%User{}, action, Chat) when action in [:index, :create], do: true
-  def can?(%User{gen_user: gen_user} = user, :show, %Chat{} = chat),
+  def can?(%User{gen_user: gen_user}, :show, %Chat{} = chat),
     do: is_participant_of_chat?(gen_user, chat)
   def can?(%User{gen_user: %{id: gen_user_id}}, action, %Chat{gen_user_id: gen_user_id})
     when action in [:update, :delete], do: true

@@ -21,6 +21,7 @@ defmodule DoorbellApi.Router do
 
     resources "/billings", BillingController, only: [:show, :update]
     resources "/plans", PlanController, only: [:index, :show]
+    post "/teams/search", TeamController, :search
     resources "/teams", TeamController, except: [:new]
     resources "/team_users", TeamUserController, except: [:index, :new]
     resources "/users", UserController, only: [:show, :update]
